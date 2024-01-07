@@ -21,7 +21,7 @@ export const createShortUrl = async (url: string): Promise<TShortUrl> => {
     }
 
     // If an entry with the provided fullUrl does not exist, create a new one.
-    const id = customAlphabet("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 10)();
+    const id = customAlphabet("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 4)();
 
     return await prisma.shortUrl.create({
       data: {

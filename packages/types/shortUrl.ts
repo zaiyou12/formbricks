@@ -1,6 +1,6 @@
 import z from "zod";
 
-export const ZShortUrlId = z.string().length(10);
+export const ZShortUrlId = z.string().length(4);
 
 export type TShortUrlId = z.infer<typeof ZShortUrlId>;
 
