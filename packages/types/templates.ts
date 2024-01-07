@@ -8,7 +8,7 @@ export const ZTemplate = z.object({
   description: z.string(),
   icon: z.any().optional(),
   category: z
-    .enum(["Product Experience", "Exploration", "Growth", "Increase Revenue", "Customer Success"])
+    .enum(["Custom", "Product Experience", "Exploration", "Growth", "Increase Revenue", "Customer Success"])
     .optional(),
   objectives: z.array(ZUserObjective).optional(),
   preset: z.object({

@@ -332,6 +332,56 @@ export const testTemplate: TTemplate = {
 
 export const templates: TTemplate[] = [
   {
+    name: "Custom form",
+    category: "Custom",
+    description: "메일링리스트",
+    preset: {
+      name: "금융지주 메일링리스트",
+      welcomeCard: welcomeCardDefault,
+      questions: [
+        {
+          id: createId(),
+          html: '<p class="fb-editor-paragraph" dir="ltr"><span>We would love to understand your user experience better. Sharing your insight helps a lot!</span></p>',
+          type: TSurveyQuestionType.CTA,
+          logic: [{ condition: "skipped", destination: "end" }],
+          headline: "You are one of our power users! Do you have 5 minutes?",
+          required: false,
+          buttonLabel: "Happy to help!",
+          buttonExternal: false,
+          dismissButtonLabel: "No, thanks.",
+        },
+        {
+          id: createId(),
+          type: TSurveyQuestionType.OpenMultipleText,
+          headline: "선택",
+          required: true,
+          inputSets: [
+            {
+              id: createId(),
+              subheader: "성명",
+              longAnswer: false,
+              inputType: "text",
+            },
+            {
+              id: createId(),
+              subheader: "전화번호",
+              longAnswer: false,
+              inputType: "number",
+            },
+            {
+              id: createId(),
+              subheader: "이메일",
+              longAnswer: false,
+              inputType: "email",
+            },
+          ],
+        },
+      ],
+      thankYouCard: thankYouCardDefault,
+      hiddenFields: hiddenFieldsDefault,
+    },
+  },
+  {
     name: "Product Market Fit (Superhuman)",
     category: "Product Experience",
 
