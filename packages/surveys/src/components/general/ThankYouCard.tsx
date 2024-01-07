@@ -1,4 +1,5 @@
 import Headline from "@/components/general/Headline";
+import HtmlBody from "@/components/general/HtmlBody";
 import RedirectCountDown from "@/components/general/RedirectCountdown";
 import Subheader from "@/components/general/Subheader";
 
@@ -37,7 +38,13 @@ export default function ThankYouCard({
 
       <div>
         <Headline alignTextCenter={true} headline={headline} questionId="thankYouCard" />
-        <Subheader subheader={subheader} questionId="thankYouCard" />
+        <div className="hidden">
+          <Subheader subheader={subheader} questionId="thankYouCard" />
+        </div>
+        <HtmlBody
+          htmlString={"<p>정상적으로 제출되었습니다.</p><p>참여해주셔서 감사합니다.</p>"}
+          questionId="thankYouCard"
+        />
         <RedirectCountDown redirectUrl={redirectUrl} isRedirectDisabled={isRedirectDisabled} />
       </div>
     </div>

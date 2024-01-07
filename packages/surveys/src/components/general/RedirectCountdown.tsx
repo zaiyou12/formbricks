@@ -36,8 +36,8 @@ export default function RedirectCountDown({ redirectUrl, isRedirectDisabled }: R
   return (
     <div>
       <div className="bg-accent-bg text-subheading mt-10 rounded-md p-2 text-sm">
-        <span>You&apos;re redirected in </span>
         <span>{timeRemaining}</span>
+        <span>초 뒤에 캠페인 페이지로 이동합니다.</span>
       </div>
     </div>
   );

@@ -98,7 +98,11 @@ export default function WelcomeCard({
     <div>
       {fileUrl && (
         /* eslint-disable-next-line @next/next/no-img-element */
-        <img src={fileUrl} className="mb-8 max-h-96 w-1/3 rounded-lg object-contain" alt="Company Logo" />
+        <img
+          src={fileUrl}
+          className="mx-auto mb-10 max-h-96 w-1/3 rounded-lg object-contain"
+          alt="Company Logo"
+        />
       )}
 
       <Headline headline={headline} questionId="welcomeCard" />
@@ -115,7 +119,7 @@ export default function WelcomeCard({
             }}
             type="button"
           />
-          <div className="text-subheading flex items-center text-xs">Press Enter ↵</div>
+          {/* <div className="text-subheading flex items-center text-xs">Press Enter ↵</div> */}
         </div>
       </div>
 
