@@ -2,6 +2,7 @@ import {
   ArrowUpTrayIcon,
   CalendarDaysIcon,
   ChatBubbleBottomCenterTextIcon,
+  ChatBubbleLeftRightIcon,
   CheckIcon,
   CursorArrowRippleIcon,
   ListBulletIcon,
@@ -39,6 +40,29 @@ export const questionTypes: TSurveyQuestionType[] = [
     },
   },
   {
+    id: QuestionId.OpenMultipleText,
+    label: "Free multiple text",
+    description: "Multiple lines of text",
+    icon: ChatBubbleLeftRightIcon,
+    preset: {
+      headline: "Example Open Multiple Text",
+      inputSets: [
+        {
+          headline: "First headline",
+          subheader: "First subheader",
+          placeholder: "Type your answer here...",
+          longAnswer: false,
+        },
+        {
+          headline: "Second headline",
+          subheader: "Second subheader",
+          placeholder: "Type your answer here...",
+          longAnswer: false,
+        },
+      ],
+    },
+  },
+  {
     id: QuestionId.MultipleChoiceSingle,
     label: "Single-Select",
     description: "A single choice from a list of options (radio buttons)",
@@ -56,6 +80,21 @@ export const questionTypes: TSurveyQuestionType[] = [
   {
     id: QuestionId.MultipleChoiceMulti,
     label: "Multi-Select",
+    description: "Number of choices from a list of options (checkboxes)",
+    icon: ListBulletIcon,
+    preset: {
+      headline: "What's important on vacay?",
+      choices: [
+        { id: createId(), label: "Sun ☀️" },
+        { id: createId(), label: "Ocean 🌊" },
+        { id: createId(), label: "Palms 🌴" },
+      ],
+      shuffleOption: "none",
+    },
+  },
+  {
+    id: QuestionId.MultipleChoiceAnswer,
+    label: "Multi-Answer",
     description: "Number of choices from a list of options (checkboxes)",
     icon: ListBulletIcon,
     preset: {

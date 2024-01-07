@@ -2,6 +2,7 @@
 
 import AdvancedSettings from "@/app/(app)/environments/[environmentId]/surveys/[surveyId]/edit/components/AdvancedSettings";
 import DateQuestionForm from "@/app/(app)/environments/[environmentId]/surveys/[surveyId]/edit/components/DateQuestionForm";
+import OpenMultipleTextQuestionForm from "@/app/(app)/environments/[environmentId]/surveys/[surveyId]/edit/components/OpenMultipleTextQuestionForm";
 import PictureSelectionForm from "@/app/(app)/environments/[environmentId]/surveys/[surveyId]/edit/components/PictureSelectionForm";
 import { getTSurveyQuestionTypeName } from "@/app/lib/questions";
 import {
@@ -35,6 +36,7 @@ import CTAQuestionForm from "./CTAQuestionForm";
 import CalQuestionForm from "./CalQuestionForm";
 import ConsentQuestionForm from "./ConsentQuestionForm";
 import FileUploadQuestionForm from "./FileUploadQuestionForm";
+import MultipleChoiceMultiAnswerForm from "./MultipleChoiceMultiAnswerForm";
 import MultipleChoiceMultiForm from "./MultipleChoiceMultiForm";
 import MultipleChoiceSingleForm from "./MultipleChoiceSingleForm";
 import NPSQuestionForm from "./NPSQuestionForm";
@@ -146,9 +148,13 @@ export default function QuestionCard({
                       <ArrowUpTrayIcon />
                     ) : question.type === TSurveyQuestionType.OpenText ? (
                       <ChatBubbleBottomCenterTextIcon />
+                    ) : question.type === TSurveyQuestionType.OpenMultipleText ? (
+                      <ChatBubbleBottomCenterTextIcon />
                     ) : question.type === TSurveyQuestionType.MultipleChoiceSingle ? (
                       <QueueListIcon />
                     ) : question.type === TSurveyQuestionType.MultipleChoiceMulti ? (
+                      <ListBulletIcon />
+                    ) : question.type === TSurveyQuestionType.MultipleChoiceAnswer ? (
                       <ListBulletIcon />
                     ) : question.type === TSurveyQuestionType.NPS ? (
                       <PresentationChartBarIcon />
@@ -199,6 +205,15 @@ export default function QuestionCard({
                   lastQuestion={lastQuestion}
                   isInValid={isInValid}
                 />
+              ) : question.type === TSurveyQuestionType.OpenMultipleText ? (
+                <OpenMultipleTextQuestionForm
+                  localSurvey={localSurvey}
+                  question={question}
+                  questionIdx={questionIdx}
+                  updateQuestion={updateQuestion}
+                  lastQuestion={lastQuestion}
+                  isInValid={isInValid}
+                />
               ) : question.type === TSurveyQuestionType.MultipleChoiceSingle ? (
                 <MultipleChoiceSingleForm
                   localSurvey={localSurvey}
@@ -210,6 +225,15 @@ export default function QuestionCard({
                 />
               ) : question.type === TSurveyQuestionType.MultipleChoiceMulti ? (
                 <MultipleChoiceMultiForm
+                  localSurvey={localSurvey}
+                  question={question}
+                  questionIdx={questionIdx}
+                  updateQuestion={updateQuestion}
+                  lastQuestion={lastQuestion}
+                  isInValid={isInValid}
+                />
+              ) : question.type === TSurveyQuestionType.MultipleChoiceAnswer ? (
+                <MultipleChoiceMultiAnswerForm
                   localSurvey={localSurvey}
                   question={question}
                   questionIdx={questionIdx}
