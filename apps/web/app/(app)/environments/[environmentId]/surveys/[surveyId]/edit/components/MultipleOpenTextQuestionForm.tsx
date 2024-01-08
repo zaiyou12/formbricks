@@ -7,7 +7,7 @@ import { useState } from "react";
 
 import {
   TSurvey,
-  TSurveyOpenMultipleTextQuestion,
+  TSurveyMultipleOpenTextQuestion,
   TSurveyOpenTextQuestionInputType,
 } from "@formbricks/types/surveys";
 import { Button } from "@formbricks/ui/Button";
@@ -24,22 +24,22 @@ const questionTypes = [
   { value: "password", label: "비밀번호" },
 ];
 
-interface OpenMultipleTextQuestionFormProps {
+interface MultipleOpenTextQuestionFormProps {
   localSurvey: TSurvey;
-  question: TSurveyOpenMultipleTextQuestion;
+  question: TSurveyMultipleOpenTextQuestion;
   questionIdx: number;
   updateQuestion: (questionIdx: number, updatedAttributes: any) => void;
   lastQuestion: boolean;
   isInValid: boolean;
 }
 
-export default function OpenMultipleTextQuestionForm({
+export default function MultipleOpenTextQuestionForm({
   question,
   questionIdx,
   updateQuestion,
   isInValid,
   localSurvey,
-}: OpenMultipleTextQuestionFormProps): JSX.Element {
+}: MultipleOpenTextQuestionFormProps): JSX.Element {
   const [showSubheader, setShowSubheader] = useState(!!question.subheader);
   const defaultPlaceholder = (index) =>
     getPlaceholderByInputType(question.inputSets[index].inputType ?? "text");

@@ -3,11 +3,11 @@ import CalQuestion from "@/components/questions/CalQuestion";
 import ConsentQuestion from "@/components/questions/ConsentQuestion";
 import DateQuestion from "@/components/questions/DateQuestion";
 import FileUploadQuestion from "@/components/questions/FileUploadQuestion";
-import MultipleChoiceAnswerQuestion from "@/components/questions/MultipleChoiceAnswerQuestion";
+import MultipleChoiceMultiAnswerQuestion from "@/components/questions/MultipleChoiceMultiAnswerQuestion";
 import MultipleChoiceMultiQuestion from "@/components/questions/MultipleChoiceMultiQuestion";
 import MultipleChoiceSingleQuestion from "@/components/questions/MultipleChoiceSingleQuestion";
+import MultipleOpenTextQuestion from "@/components/questions/MultipleOpenTextQuestion";
 import NPSQuestion from "@/components/questions/NPSQuestion";
-import OpenMultipleTextQuestion from "@/components/questions/OpenMultipleTextQuestion";
 import OpenTextQuestion from "@/components/questions/OpenTextQuestion";
 import PictureSelectionQuestion from "@/components/questions/PictureSelectionQuestion";
 import RatingQuestion from "@/components/questions/RatingQuestion";
@@ -57,9 +57,10 @@ export default function QuestionConditional({
       autoFocus={autoFocus}
       ttc={ttc}
       setTtc={setTtc}
+      key={question.id}
     />
-  ) : question.type === TSurveyQuestionType.OpenMultipleText ? (
-    <OpenMultipleTextQuestion
+  ) : question.type === TSurveyQuestionType.MultipleOpenText ? (
+    <MultipleOpenTextQuestion
       question={question}
       value={value as string[]}
       onChange={onChange}
@@ -70,6 +71,7 @@ export default function QuestionConditional({
       autoFocus={autoFocus}
       ttc={ttc}
       setTtc={setTtc}
+      key={question.id}
     />
   ) : question.type === TSurveyQuestionType.MultipleChoiceSingle ? (
     <MultipleChoiceSingleQuestion
@@ -82,6 +84,7 @@ export default function QuestionConditional({
       isLastQuestion={isLastQuestion}
       ttc={ttc}
       setTtc={setTtc}
+      key={question.id}
     />
   ) : question.type === TSurveyQuestionType.MultipleChoiceMulti ? (
     <MultipleChoiceMultiQuestion
@@ -94,9 +97,10 @@ export default function QuestionConditional({
       isLastQuestion={isLastQuestion}
       ttc={ttc}
       setTtc={setTtc}
+      key={question.id}
     />
-  ) : question.type === TSurveyQuestionType.MultipleChoiceAnswer ? (
-    <MultipleChoiceAnswerQuestion
+  ) : question.type === TSurveyQuestionType.MultipleChoiceMultiAnswer ? (
+    <MultipleChoiceMultiAnswerQuestion
       question={question}
       value={value}
       onChange={onChange}
@@ -106,6 +110,7 @@ export default function QuestionConditional({
       isLastQuestion={isLastQuestion}
       ttc={ttc}
       setTtc={setTtc}
+      key={question.id}
     />
   ) : question.type === TSurveyQuestionType.NPS ? (
     <NPSQuestion
@@ -118,6 +123,7 @@ export default function QuestionConditional({
       isLastQuestion={isLastQuestion}
       ttc={ttc}
       setTtc={setTtc}
+      key={question.id}
     />
   ) : question.type === TSurveyQuestionType.CTA ? (
     <CTAQuestion
@@ -130,6 +136,7 @@ export default function QuestionConditional({
       isLastQuestion={isLastQuestion}
       ttc={ttc}
       setTtc={setTtc}
+      key={question.id}
     />
   ) : question.type === TSurveyQuestionType.Rating ? (
     <RatingQuestion
@@ -142,6 +149,7 @@ export default function QuestionConditional({
       isLastQuestion={isLastQuestion}
       ttc={ttc}
       setTtc={setTtc}
+      key={question.id}
     />
   ) : question.type === TSurveyQuestionType.Consent ? (
     <ConsentQuestion
@@ -154,6 +162,7 @@ export default function QuestionConditional({
       isLastQuestion={isLastQuestion}
       ttc={ttc}
       setTtc={setTtc}
+      key={question.id}
     />
   ) : question.type === TSurveyQuestionType.Date ? (
     <DateQuestion
@@ -166,6 +175,7 @@ export default function QuestionConditional({
       isLastQuestion={isLastQuestion}
       ttc={ttc}
       setTtc={setTtc}
+      key={question.id}
     />
   ) : question.type === TSurveyQuestionType.PictureSelection ? (
     <PictureSelectionQuestion
@@ -178,6 +188,7 @@ export default function QuestionConditional({
       isLastQuestion={isLastQuestion}
       ttc={ttc}
       setTtc={setTtc}
+      key={question.id}
     />
   ) : question.type === TSurveyQuestionType.FileUpload ? (
     <FileUploadQuestion
@@ -192,6 +203,7 @@ export default function QuestionConditional({
       onFileUpload={onFileUpload}
       ttc={ttc}
       setTtc={setTtc}
+      key={question.id}
     />
   ) : question.type === TSurveyQuestionType.Cal ? (
     <CalQuestion
@@ -204,6 +216,7 @@ export default function QuestionConditional({
       isLastQuestion={isLastQuestion}
       ttc={ttc}
       setTtc={setTtc}
+      key={question.id}
     />
   ) : null;
 }

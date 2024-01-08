@@ -40,8 +40,8 @@ export const checkValidity = (question: TSurveyQuestion, answer: any): boolean =
   try {
     switch (question.type) {
       case TSurveyQuestionType.OpenText:
-      case TSurveyQuestionType.OpenMultipleText:
-      case TSurveyQuestionType.MultipleChoiceAnswer: {
+      case TSurveyQuestionType.MultipleOpenText:
+      case TSurveyQuestionType.MultipleChoiceMultiAnswer: {
         return true;
       }
       case TSurveyQuestionType.MultipleChoiceSingle: {
@@ -103,8 +103,8 @@ export const checkValidity = (question: TSurveyQuestion, answer: any): boolean =
 export const transformAnswer = (question: TSurveyQuestion, answer: string): string | number | string[] => {
   switch (question.type) {
     case TSurveyQuestionType.OpenText:
-    case TSurveyQuestionType.OpenMultipleText:
-    case TSurveyQuestionType.MultipleChoiceAnswer:
+    case TSurveyQuestionType.MultipleOpenText:
+    case TSurveyQuestionType.MultipleChoiceMultiAnswer:
     case TSurveyQuestionType.MultipleChoiceSingle:
     case TSurveyQuestionType.Consent:
     case TSurveyQuestionType.CTA: {

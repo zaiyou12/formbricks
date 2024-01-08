@@ -9,10 +9,10 @@ import { useMemo, useState } from "preact/hooks";
 
 import { TResponseData } from "@formbricks/types/responses";
 import { TResponseTtc } from "@formbricks/types/responses";
-import type { TSurveyMultipleChoiceAnswerQuestion } from "@formbricks/types/surveys";
+import type { TSurveyMultipleChoiceMultiAnswerQuestion } from "@formbricks/types/surveys";
 
-interface MultipleChoiceAnswerMultiProps {
-  question: TSurveyMultipleChoiceAnswerQuestion;
+interface MultipleChoiceMultiAnswerProps {
+  question: TSurveyMultipleChoiceMultiAnswerQuestion;
   value: string | number | string[];
   onChange: (responseData: TResponseData) => void;
   onSubmit: (data: TResponseData, ttc: TResponseTtc) => void;
@@ -23,7 +23,7 @@ interface MultipleChoiceAnswerMultiProps {
   setTtc: (ttc: TResponseTtc) => void;
 }
 
-export default function MultipleChoiceAnswerQuestion({
+export default function MultipleChoiceMultiAnswerQuestion({
   question,
   value,
   onChange,
@@ -33,7 +33,7 @@ export default function MultipleChoiceAnswerQuestion({
   isLastQuestion,
   ttc,
   setTtc,
-}: MultipleChoiceAnswerMultiProps) {
+}: MultipleChoiceMultiAnswerProps) {
   const [startTime, setStartTime] = useState(performance.now());
   const [curActives, setActives] = useState(new Array(question.choices.length));
   const [curValues, setValues] = useState(new Array(question.choices.length));
@@ -96,7 +96,7 @@ export default function MultipleChoiceAnswerQuestion({
       <Subheader subheader={question.subheader} questionId={question.id} />
       <div className="mt-4">
         <fieldset>
-          <legend className="sr-only">Options</legend>
+          <legend className="sr-only">선택</legend>
           <div className="bg-survey-bg relative max-h-[42vh] space-y-2 overflow-y-auto rounded-md py-0.5 pr-2">
             {questionChoices.map((choice, idx) => (
               <label
@@ -134,7 +134,7 @@ export default function MultipleChoiceAnswerQuestion({
                       }
                       (e.target as HTMLInputElement).setCustomValidity("");
                     }}
-                    checked={curValues[idx] != undefined && curValues[idx] != ""}
+                    checked={curActives[idx] === true}
                     onInvalid={(e) =>
                       (e.target as HTMLInputElement).setCustomValidity("항목 확인을 해주세요")
                     }

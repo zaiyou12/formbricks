@@ -17,7 +17,7 @@ export default function Headline({
         {headline}
         {!required && (
           <span className="text-info-text ml-2 self-start text-sm font-normal leading-7" tabIndex={-1}>
-            Optional
+            선택
           </span>
         )}
       </div>

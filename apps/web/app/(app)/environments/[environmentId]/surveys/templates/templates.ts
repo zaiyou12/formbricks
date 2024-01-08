@@ -352,7 +352,7 @@ export const templates: TTemplate[] = [
         },
         {
           id: createId(),
-          type: TSurveyQuestionType.OpenMultipleText,
+          type: TSurveyQuestionType.MultipleOpenText,
           headline: "선택",
           required: true,
           inputSets: [

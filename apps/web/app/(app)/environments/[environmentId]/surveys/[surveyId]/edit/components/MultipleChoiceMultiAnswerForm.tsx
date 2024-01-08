@@ -6,7 +6,7 @@ import { createId } from "@paralleldrive/cuid2";
 import { useEffect, useRef, useState } from "react";
 
 import { cn } from "@formbricks/lib/cn";
-import { TSurvey, TSurveyMultipleChoiceAnswerQuestion } from "@formbricks/types/surveys";
+import { TSurvey, TSurveyMultipleChoiceMultiAnswerQuestion } from "@formbricks/types/surveys";
 import { Button } from "@formbricks/ui/Button";
 import { Input } from "@formbricks/ui/Input";
 import { Label } from "@formbricks/ui/Label";
@@ -14,7 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 interface OpenQuestionFormProps {
   localSurvey: TSurvey;
-  question: TSurveyMultipleChoiceAnswerQuestion;
+  question: TSurveyMultipleChoiceMultiAnswerQuestion;
   questionIdx: number;
   updateQuestion: (questionIdx: number, updatedAttributes: any) => void;
   lastQuestion: boolean;
@@ -190,7 +190,7 @@ export default function MultipleChoiceMultiAnswerForm({
       </div>
 
       <div className="mt-3">
-        <Label htmlFor="choices">Options</Label>
+        <Label htmlFor="choices">선택</Label>
         <div className="mt-2 space-y-2" id="choices">
           {question.choices &&
             question.choices.map((choice, choiceIdx) => (

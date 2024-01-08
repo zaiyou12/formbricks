@@ -40,7 +40,7 @@ export const questionTypes: TSurveyQuestionType[] = [
     },
   },
   {
-    id: QuestionId.OpenMultipleText,
+    id: QuestionId.MultipleOpenText,
     label: "Free multiple text",
     description: "Multiple lines of text",
     icon: ChatBubbleLeftRightIcon,
@@ -93,7 +93,7 @@ export const questionTypes: TSurveyQuestionType[] = [
     },
   },
   {
-    id: QuestionId.MultipleChoiceAnswer,
+    id: QuestionId.MultipleChoiceMultiAnswer,
     label: "Multi-Answer",
     description: "Number of choices from a list of options (checkboxes)",
     icon: ListBulletIcon,

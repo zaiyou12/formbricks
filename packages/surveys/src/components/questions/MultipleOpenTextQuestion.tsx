@@ -7,10 +7,10 @@ import { useState } from "preact/hooks";
 import { useCallback } from "react";
 
 import { TResponseData, TResponseTtc } from "@formbricks/types/responses";
-import type { TSurveyOpenMultipleTextQuestion } from "@formbricks/types/surveys";
+import type { TSurveyMultipleOpenTextQuestion } from "@formbricks/types/surveys";
 
-interface OpenMultipleTextQuestionProps {
-  question: TSurveyOpenMultipleTextQuestion;
+interface MultipleOpenTextQuestionProps {
+  question: TSurveyMultipleOpenTextQuestion;
   value: string | number | string[];
   onChange: (responseData: TResponseData) => void;
   onSubmit: (data: TResponseData, ttc: TResponseTtc) => void;
@@ -22,7 +22,7 @@ interface OpenMultipleTextQuestionProps {
   setTtc: (ttc: TResponseTtc) => void;
 }
 
-export default function OpenMultipleTextQuestion({
+export default function MultipleOpenTextQuestion({
   question,
   value,
   onChange,
@@ -33,7 +33,7 @@ export default function OpenMultipleTextQuestion({
   autoFocus = true,
   ttc,
   setTtc,
-}: OpenMultipleTextQuestionProps) {
+}: MultipleOpenTextQuestionProps) {
   const [startTime, setStartTime] = useState(performance.now());
   const [curValue, setValue] = useState(new Array((value as string[])?.length));
 
@@ -62,7 +62,6 @@ export default function OpenMultipleTextQuestion({
         const updatedttc = getUpdatedTtc(ttc, question.id, performance.now() - startTime);
         setTtc(updatedttc);
         onSubmit({ [question.id]: curValue }, updatedttc);
-        // }
       }}
       className="w-full">
       {question.imageUrl && (

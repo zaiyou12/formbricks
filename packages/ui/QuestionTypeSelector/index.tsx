@@ -67,7 +67,7 @@ const typeIcons: { [key: string]: React.ReactNode } = {
   phone: <PhoneIcon />,
 };
 
-//for OpenMultipleText
+//for MultipleOpenText
 export function QuestionTypeSelectorForMultiple({
   currentIdx,
   questionTypes,
