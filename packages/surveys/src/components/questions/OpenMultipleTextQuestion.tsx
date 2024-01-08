@@ -17,7 +17,6 @@ interface OpenMultipleTextQuestionProps {
   onBack: () => void;
   isFirstQuestion: boolean;
   isLastQuestion: boolean;
-  // brandColor: string;
   autoFocus?: boolean;
   ttc: TResponseTtc;
   setTtc: (ttc: TResponseTtc) => void;
@@ -82,7 +81,7 @@ export default function OpenMultipleTextQuestion({
             <div className="mt-4">
               {inputSet.longAnswer === false ? (
                 <input
-                  ref={openTextRef}
+                  ref={inputSetIdx === 0 ? openTextRef : null}
                   tabIndex={1}
                   placeholder={inputSet.placeholder}
                   required={question.required}
@@ -103,7 +102,7 @@ export default function OpenMultipleTextQuestion({
                 />
               ) : (
                 <textarea
-                  ref={openTextRef}
+                  ref={inputSetIdx === 0 ? openTextRef : null}
                   rows={3}
                   tabIndex={1}
                   placeholder={inputSet.placeholder}

@@ -122,7 +122,7 @@ const LinkSurveyPinScreen: NextPage<LinkSurveyPinScreenProps> = (props) => {
       </MediaBackground>
       <LegalFooter
         bgColor={survey.styling?.background?.bg || "#ffff"}
-        IMPRINT_URL={IMPRINT_URL}
+        TERMS_URL={IMPRINT_URL}
         PRIVACY_URL={PRIVACY_URL}
       />
     </div>
