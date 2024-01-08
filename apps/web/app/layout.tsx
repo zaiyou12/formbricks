@@ -13,9 +13,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className="h-full">
       {process.env.VERCEL === "1" && <SpeedInsights sampleRate={0.1} />}
-      <body className="flex h-screen flex-col">{children}</body>
+      <body className="flex h-full flex-col">{children}</body>
     </html>
   );
 }

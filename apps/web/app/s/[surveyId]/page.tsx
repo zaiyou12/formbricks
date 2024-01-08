@@ -8,7 +8,7 @@ import { checkValidity } from "@/app/s/[surveyId]/lib/prefilling";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { IMPRINT_URL, PRIVACY_URL } from "@formbricks/lib/constants";
+import { IMPRINT_URL, PRIVACY_URL, TERMS_URL } from "@formbricks/lib/constants";
 import { WEBAPP_URL } from "@formbricks/lib/constants";
 import { createPerson, getPersonByUserId } from "@formbricks/lib/person/service";
 import { getProductByEnvironmentId } from "@formbricks/lib/product/service";
@@ -189,7 +189,7 @@ export default async function LinkSurveyPage({ params, searchParams }: LinkSurve
   }
 
   return survey ? (
-    <div>
+    <>
       <MediaBackground survey={survey}>
         <LinkSurvey
           survey={survey}
@@ -205,9 +205,9 @@ export default async function LinkSurveyPage({ params, searchParams }: LinkSurve
       </MediaBackground>
       <LegalFooter
         bgColor={survey.styling?.background?.bg || "#ffff"}
-        IMPRINT_URL={IMPRINT_URL}
+        TERMS_URL={TERMS_URL}
         PRIVACY_URL={PRIVACY_URL}
       />
-    </div>
+    </>
   ) : null;
 }
