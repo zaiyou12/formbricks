@@ -136,6 +136,7 @@ export default function MultipleChoiceMultiAnswerQuestion({
                     }}
                     checked={curActives[idx] === true}
                     onInvalid={(e) =>
+                      question.required &&
                       (e.target as HTMLInputElement).setCustomValidity("항목 확인을 해주세요")
                     }
                     onInput={(e) => (e.target as HTMLInputElement).setCustomValidity("")}
@@ -167,6 +168,7 @@ export default function MultipleChoiceMultiAnswerQuestion({
                     className="placeholder:text-placeholder border-border bg-survey-bg text-heading focus:ring-focus mt-3 flex h-10 w-full rounded-md border px-3 py-2 text-sm  focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                     aria-labelledby={`${idx}-label`}
                     onInvalid={(e) =>
+                      question.required &&
                       (e.target as HTMLInputElement).setCustomValidity("주식수를 입력해주세요")
                     }
                     onInput={(e) => (e.target as HTMLInputElement).setCustomValidity("")}

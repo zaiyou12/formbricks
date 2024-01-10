@@ -88,7 +88,7 @@ export default function MultipleOpenTextQuestion({
                   value={curValue[inputSetIdx]}
                   onInput={(e) => {
                     handleInputChange(e.currentTarget.value, inputSetIdx);
-                    if (e.currentTarget.value.length > 0) {
+                    if (question.required === false || e.currentTarget.value.length > 0) {
                       e.currentTarget.setCustomValidity("");
                     }
                   }}
@@ -97,7 +97,11 @@ export default function MultipleOpenTextQuestion({
                   className={`block w-full rounded-md border
          border-slate-100
          bg-slate-50 p-2 shadow-sm focus:border-slate-500 focus:outline-none focus:ring-0 sm:text-sm`}
-                  onInvalid={(e) => (e.target as HTMLInputElement).setCustomValidity("정보를 입력해주세요")}
+                  onInvalid={(e) => {
+                    if (question.required) {
+                      (e.target as HTMLInputElement).setCustomValidity("정보를 입력해주세요");
+                    }
+                  }}
                 />
               ) : (
                 <textarea
