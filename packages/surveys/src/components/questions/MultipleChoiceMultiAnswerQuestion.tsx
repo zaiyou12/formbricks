@@ -34,9 +34,14 @@ export default function MultipleChoiceMultiAnswerQuestion({
   ttc,
   setTtc,
 }: MultipleChoiceMultiAnswerProps) {
+  const getActives = (value: string | number | string[]) => {
+    if (value === undefined) return new Array(question.choices.length);
+    return (value as string[]).map((item) => !!item);
+  };
+
   const [startTime, setStartTime] = useState(performance.now());
-  const [curActives, setActives] = useState(new Array(question.choices.length));
-  const [curValues, setValues] = useState(new Array(question.choices.length));
+  const [curActives, setActives] = useState(getActives(value));
+  const [curValues, setValues] = useState((value as string[]) ?? new Array(question.choices.length));
 
   useTtc(question.id, ttc, setTtc, startTime, setStartTime);
 

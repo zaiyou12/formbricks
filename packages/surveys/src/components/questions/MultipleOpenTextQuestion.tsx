@@ -35,7 +35,7 @@ export default function MultipleOpenTextQuestion({
   setTtc,
 }: MultipleOpenTextQuestionProps) {
   const [startTime, setStartTime] = useState(performance.now());
-  const [curValue, setValue] = useState(new Array((value as string[])?.length));
+  const [curValue, setValue] = useState((value as string[]) ?? new Array());
 
   useTtc(question.id, ttc, setTtc, startTime, setStartTime);
 
