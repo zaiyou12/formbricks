@@ -4,6 +4,8 @@ export const TYPE_MAPPING = {
   [TSurveyQuestionType.CTA]: ["checkbox"],
   [TSurveyQuestionType.MultipleChoiceMulti]: ["multi_select"],
   [TSurveyQuestionType.MultipleChoiceSingle]: ["select", "status"],
+  [TSurveyQuestionType.MultipleChoiceMultiAnswer]: ["multi_select"],
+  [TSurveyQuestionType.MultipleOpenText]: ["title", "rich_text"],
   [TSurveyQuestionType.OpenText]: [
     "created_by",
     "created_time",
