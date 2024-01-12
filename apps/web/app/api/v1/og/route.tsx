@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
                 <h2 tw="flex flex-col text-[8] sm:text-4xl font-bold tracking-tight text-gray-900 text-left mt-15">
                   {name}
                 </h2>
-                <span tw="text-gray-600 text-xl">Complete in ~ 4 minutes</span>
+                <span tw="text-gray-600 text-xl">소요시간 ~ 4 minutes</span>
               </div>
             </div>
             <div tw="flex justify-end mr-10 ">

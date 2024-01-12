@@ -5,10 +5,11 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | Formbricks",
-    default: "Formbricks",
+    template: "%s | BsideKorea",
+    default: "BsideKorea",
   },
-  description: "Open-Source Survey Suite",
+  description:
+    "비사이드는 주주자본주의에 기반하여 국내 자본시장을 개선하기 위해 태어난 최초의 주주행동주의 플랫폼입니다.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -67,7 +67,8 @@ export async function generateMetadata({ params }: LinkSurveyPageProps): Promise
     metadataBase: new URL(WEBAPP_URL),
     openGraph: {
       title: survey.name,
-      description: "Create your own survey like this with Formbricks' open source survey suite.",
+      description:
+        "비사이드는 주주자본주의에 기반하여 국내 자본시장을 개선하기 위해 태어난 최초의 주주행동주의 플랫폼입니다.",
       url: `/s/${survey.id}`,
       siteName: "",
       images: [ogImgURL],
@@ -77,7 +78,8 @@ export async function generateMetadata({ params }: LinkSurveyPageProps): Promise
     twitter: {
       card: "summary_large_image",
       title: survey.name,
-      description: "Create your own survey like this with Formbricks' open source survey suite.",
+      description:
+        "비사이드는 주주자본주의에 기반하여 국내 자본시장을 개선하기 위해 태어난 최초의 주주행동주의 플랫폼입니다.",
       images: [ogImgURL],
     },
   };
