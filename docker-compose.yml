@@ -44,9 +44,9 @@ x-signup-disabled: &signup_disabled 0
 x-invite-disabled: &invite_disabled 0
 
 # Set the below values to display privacy policy, imprint and terms of service links in the footer of signup & public pages.
-x-privacy-url: &privacy_url
-x-terms-url: &terms_url
-x-imprint-url: &imprint_url
+x-privacy-url: &privacy_url https://plip.kr/html/4af96179-b869-4817-90e5-675fe34e79d4.html
+x-terms-url: &terms_url https://corp.bside.ai/terms-of-use
+x-imprint-url: &imprint_url https://corp.bside.ai/terms-of-use?_gl=1*1vkaq1s*_ga*OTk0ODM5ODE3LjE2ODc3NTc3MDk.*_ga_ST8VVL6EQQ*MTcwNTAzMzg2My4zMy4xLjE3MDUwMzU5NDYuNTYuMC4w
 
 x-github-auth-enabled: &github_auth_enabled 0 # Configure Github Login
 x-github-id: &github_id
@@ -117,6 +117,8 @@ services:
       GOOGLE_CLIENT_ID: *google_client_id
       GOOGLE_CLIENT_SECRET: *google_client_secret
       CRON_SECRET: *cron_secret
+      NOTION_OAUTH_CLIENT_ID: ae8f4d55-36e5-41ae-8df1-69fd3ffd49a1
+      NOTION_OAUTH_CLIENT_SECRET: secret_gIMFfIQt27jHCdeCFlxqJ8XwHnwIfV7lQLxKqAGTqfE
 
     volumes:
       - uploads:/home/nextjs/apps/web/uploads/
