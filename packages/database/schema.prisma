@@ -101,7 +101,6 @@ model Person {
   displays      Display[]
   actions       Action[]
 
-  @@unique([environmentId, userId])
   @@index([environmentId])
 }
 
