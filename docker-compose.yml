@@ -1,7 +1,7 @@
 version: "3.3"
 
 # This should be the same as below if you are running via docker compose up
-x-webapp-url: &webapp_url https://form.bside.ai
+x-webapp-url: &webapp_url http://localhost:3000
 
 # PostgreSQL DB for Formbricks to connect to
 x-database-url: &database_url postgresql://postgres:postgres@postgres:5432/formbricks?schema=public
@@ -13,7 +13,7 @@ x-nextauth-secret: &nextauth_secret 10ee8bc17d40a457544cf373affbab16
 
 # Set this to your public-facing URL, e.g., https://example.com
 # You do not need the NEXTAUTH_URL environment variable in Vercel.
-x-nextauth-url: &nextauth_url https://form.bside.ai
+x-nextauth-url: &nextauth_url http://localhost:3000
 
 # Encryption key
 # You can use: `openssl rand -hex 32` to generate one
@@ -75,6 +75,7 @@ services:
 
   formbricks:
     restart: always
+    platform: linux/amd64
     build:
       context: .
       dockerfile: ./apps/web/Dockerfile
@@ -118,7 +119,7 @@ services:
       GOOGLE_CLIENT_SECRET: *google_client_secret
       CRON_SECRET: *cron_secret
       NOTION_OAUTH_CLIENT_ID: ae8f4d55-36e5-41ae-8df1-69fd3ffd49a1
-      NOTION_OAUTH_CLIENT_SECRET: secret_gIMFfIQt27jHCdeCFlxqJ8XwHnwIfV7lQLxKqAGTqfE
+      NOTION_OAUTH_CLIENT_SECRET: secret_LqTH2wQWLaoG31kbzwqS1dfjKiJoWV0w2xviuJ6KqMU
 
     volumes:
       - uploads:/home/nextjs/apps/web/uploads/
