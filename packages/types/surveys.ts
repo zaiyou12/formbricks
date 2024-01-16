@@ -281,6 +281,7 @@ export type TSurveyOpenTextQuestion = z.infer<typeof ZSurveyOpenTextQuestion>;
 
 export const ZSurveyInputSet = z.object({
   id: z.string(),
+  headline: z.string(),
   subheader: z.string(),
   placeholder: z.string().optional(),
   longAnswer: z.boolean().optional(),
