@@ -23,6 +23,8 @@ export enum TSurveyQuestionType {
   PictureSelection = "pictureSelection",
   Cal = "cal",
   Date = "date",
+  Signature = "signature",
+  Custom = "custom",
 }
 
 export const ZSurveyWelcomeCard = z.object({
@@ -257,6 +259,7 @@ const ZSurveyQuestionBase = z.object({
   range: z.union([z.literal(5), z.literal(3), z.literal(4), z.literal(7), z.literal(10)]).optional(),
   logic: z.array(ZSurveyLogic).optional(),
   isDraft: z.boolean().optional(),
+  uploadType: z.enum(["single", "multi", "camera", "idCard", "signature", "triple"]).optional(),
 });
 
 export const ZSurveyOpenTextQuestionInputType = z.enum([
@@ -274,7 +277,7 @@ export const ZSurveyOpenTextQuestion = ZSurveyQuestionBase.extend({
   placeholder: z.string().optional(),
   longAnswer: z.boolean().optional(),
   logic: z.array(ZSurveyOpenTextLogic).optional(),
-  inputType: ZSurveyOpenTextQuestionInputType.optional().default("text"),
+  inputType: ZSurveyOpenTextQuestionInputType.default("text").optional(),
 });
 
 export type TSurveyOpenTextQuestion = z.infer<typeof ZSurveyOpenTextQuestion>;
@@ -402,6 +405,8 @@ export const ZSurveyFileUploadQuestion = ZSurveyQuestionBase.extend({
   maxSizeInMB: z.number().optional(),
   allowedFileExtensions: z.array(ZAllowedFileExtension).optional(),
   logic: z.array(ZSurveyFileUploadLogic).optional(),
+  exampleImgUrl: z.string().optional(),
+  exampleButtonLabel: z.string().optional(),
 });
 
 export type TSurveyFileUploadQuestion = z.infer<typeof ZSurveyFileUploadQuestion>;
@@ -413,6 +418,19 @@ export const ZSurveyCalQuestion = ZSurveyQuestionBase.extend({
 });
 
 export type TSurveyCalQuestion = z.infer<typeof ZSurveyCalQuestion>;
+
+export const ZSurveySignatureQuestion = ZSurveyQuestionBase.extend({
+  type: z.literal(TSurveyQuestionType.Signature),
+  clearButtonLabel: z.string().default("clear"),
+});
+
+export type TSurveySignatureQuestion = z.infer<typeof ZSurveySignatureQuestion>;
+
+export const ZSurveyCustomQuestion = ZSurveyQuestionBase.extend({
+  type: z.literal(TSurveyQuestionType.Custom),
+});
+
+export type TSurveyCustomQuestion = z.infer<typeof ZSurveyCustomQuestion>;
 
 export const ZSurveyQuestion = z.union([
   ZSurveyOpenTextQuestion,
@@ -428,6 +446,8 @@ export const ZSurveyQuestion = z.union([
   ZSurveyDateQuestion,
   ZSurveyFileUploadQuestion,
   ZSurveyCalQuestion,
+  ZSurveySignatureQuestion,
+  ZSurveyCustomQuestion,
 ]);
 
 export type TSurveyQuestion = z.infer<typeof ZSurveyQuestion>;
