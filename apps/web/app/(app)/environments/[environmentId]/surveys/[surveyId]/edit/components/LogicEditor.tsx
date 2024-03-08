@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { toast } from "react-hot-toast";
 import { BsArrowDown, BsArrowReturnRight } from "react-icons/bs";
 
+import { checkForRecallInHeadline } from "@formbricks/lib/utils/recall";
 import {
   TSurvey,
   TSurveyLogic,
@@ -44,6 +45,10 @@ export default function LogicEditor({
   questionIdx,
   updateQuestion,
 }: LogicEditorProps): JSX.Element {
+  localSurvey = useMemo(() => {
+    return checkForRecallInHeadline(localSurvey);
+  }, [localSurvey]);
+
   const questionValues = useMemo(() => {
     if ("choices" in question) {
       return question.choices.map((choice) => choice.label);
@@ -57,7 +62,7 @@ export default function LogicEditor({
 
   const conditions = {
     openText: ["submitted", "skipped"],
-    multipleChoiceSingle: ["submitted", "skipped", "equals", "notEquals"],
+    multipleChoiceSingle: ["submitted", "skipped", "equals", "notEquals", "includesOne"],
     multipleChoiceMulti: ["submitted", "skipped", "includesAll", "includesOne", "equals"],
     nps: [
       "equals",
@@ -274,19 +279,21 @@ export default function LogicEditor({
               </Select>
 
               {logic.condition && logicConditions[logic.condition].values != null && (
-                <div className="flex-1 basis-1/4">
+                <div>
                   {!logicConditions[logic.condition].multiSelect ? (
-                    <Select value={logic.value} onValueChange={(e) => updateLogic(logicIdx, { value: e })}>
+                    <Select
+                      value={logic.value?.toString()}
+                      onValueChange={(e) => updateLogic(logicIdx, { value: e })}>
                       <SelectTrigger className="w-full overflow-hidden">
                         <SelectValue placeholder="Select match type" />
                       </SelectTrigger>
-                      <SelectContent className="w-full bg-slate-50 text-slate-700 2xl:w-96">
+                      <SelectContent className=" bg-slate-50 text-slate-700">
                         {logicConditions[logic.condition].values?.map((value) => {
                           if (!value) return;
                           return (
                             <SelectItem key={value} value={value} title={value}>
                               <div className="w-full">
-                                <p className="line-clamp-1 w-40 text-left 2xl:w-80">{value}</p>
+                                <p className="mr-2 line-clamp-1 w-fit text-left">{value}</p>
                               </div>
                             </SelectItem>
                           );

@@ -44,7 +44,9 @@ const QuestionFilterComboBox = ({
 
   // multiple when question type is multi selection
   const isMultiple =
-    type === TSurveyQuestionType.MultipleChoiceMulti || type === TSurveyQuestionType.MultipleChoiceSingle;
+    type === TSurveyQuestionType.MultipleChoiceMulti ||
+    type === TSurveyQuestionType.MultipleChoiceSingle ||
+    type === TSurveyQuestionType.PictureSelection;
 
   // when question type is multi selection so we remove the option from the options which has been already selected
   const options = isMultiple
@@ -118,6 +120,7 @@ const QuestionFilterComboBox = ({
                 {typeof filterComboBoxValue !== "string" &&
                   filterComboBoxValue?.map((o) => (
                     <button
+                      type="button"
                       onClick={() => handleRemoveMultiSelect(filterComboBoxValue.filter((i) => i !== o))}
                       className="w-30 flex items-center whitespace-nowrap bg-slate-100 px-2 text-slate-600">
                       {o}

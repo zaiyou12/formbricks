@@ -7,8 +7,7 @@ import { getUpdatedTtc, useTtc } from "@/lib/ttc";
 import { cn, shuffleQuestions } from "@/lib/utils";
 import { useCallback, useEffect, useMemo, useRef, useState } from "preact/hooks";
 
-import { TResponseData } from "@formbricks/types/responses";
-import { TResponseTtc } from "@formbricks/types/responses";
+import { TResponseData, TResponseTtc } from "@formbricks/types/responses";
 import type { TSurveyMultipleChoiceMultiQuestion } from "@formbricks/types/surveys";
 
 interface MultipleChoiceMultiProps {
@@ -109,6 +108,7 @@ export default function MultipleChoiceMultiQuestion({
 
   return (
     <form
+      key={question.id}
       onSubmit={(e) => {
         e.preventDefault();
         const newValue = (value as string[])?.filter((item) => {
@@ -126,7 +126,7 @@ export default function MultipleChoiceMultiQuestion({
       <div className="mt-4">
         <fieldset>
           <legend className="sr-only">Options</legend>
-          <div className="bg-survey-bg relative max-h-[42vh] space-y-2 overflow-y-auto rounded-md py-0.5 pr-2">
+          <div className="bg-survey-bg relative max-h-[33vh] space-y-2 overflow-y-auto rounded-md py-0.5 pr-2">
             {questionChoices.map((choice, idx) => (
               <label
                 key={choice.id}
@@ -231,7 +231,7 @@ export default function MultipleChoiceMultiQuestion({
                         }, 100);
                       }
                     }}
-                    placeholder="Please specify"
+                    placeholder={question.otherOptionPlaceholder ?? "Please specify"}
                     className="placeholder:text-placeholder border-border bg-survey-bg text-heading focus:ring-focus mt-3 flex h-10 w-full rounded-md border px-3 py-2 text-sm  focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                     required={question.required}
                     aria-labelledby={`${otherOption.id}-label`}

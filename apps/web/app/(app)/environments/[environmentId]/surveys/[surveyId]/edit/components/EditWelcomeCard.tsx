@@ -2,7 +2,7 @@
 
 import * as Collapsible from "@radix-ui/react-collapsible";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { cn } from "@formbricks/lib/cn";
 import { md } from "@formbricks/lib/markdownIt";
@@ -29,17 +29,19 @@ export default function EditWelcomeCard({
   const [firstRender, setFirstRender] = useState(true);
   const path = usePathname();
   const environmentId = path?.split("/environments/")[1]?.split("/")[0];
-  // const [open, setOpen] = useState(false);
+
   let open = activeQuestionId == "start";
+
   const setOpen = (e) => {
     if (e) {
       setActiveQuestionId("start");
+      setFirstRender(true);
     } else {
       setActiveQuestionId(null);
     }
   };
 
-  const updateSurvey = (data) => {
+  const updateSurvey = (data: Partial<TSurvey["welcomeCard"]>) => {
     setLocalSurvey({
       ...localSurvey,
       welcomeCard: {
@@ -48,20 +50,17 @@ export default function EditWelcomeCard({
       },
     });
   };
-  useEffect(() => {
-    setFirstRender(true);
-  }, [activeQuestionId]);
 
   return (
     <div
       className={cn(
         open ? "scale-100 shadow-lg " : "scale-97 shadow-md",
-        "flex flex-row rounded-lg bg-white transition-transform duration-300 ease-in-out"
+        "group flex flex-row rounded-lg bg-white transition-transform duration-300 ease-in-out"
       )}>
       <div
         className={cn(
-          open ? "bg-slate-700" : "bg-slate-400",
-          "flex w-10 items-center justify-center rounded-l-lg hover:bg-slate-600 group-aria-expanded:rounded-bl-none"
+          open ? "bg-slate-50" : "bg-white group-hover:bg-slate-50",
+          "flex w-10 items-center justify-center rounded-l-lg border-b border-l border-t group-aria-expanded:rounded-bl-none"
         )}>
         <p>✋</p>
       </div>
@@ -112,7 +111,6 @@ export default function EditWelcomeCard({
                   updateSurvey({ fileUrl: url[0] });
                 }}
                 fileUrl={localSurvey?.welcomeCard?.fileUrl}
-                imageFit="contain"
               />
             </div>
             <div className="mt-3">
@@ -175,10 +173,8 @@ export default function EditWelcomeCard({
                 />
               </div>
               <div className="flex-column">
-                <Label htmlFor="timeToFinish" className="">
-                  Time to Finish
-                </Label>
-                <div className="text-sm text-gray-500 dark:text-gray-400">
+                <Label htmlFor="timeToFinish">Time to Finish</Label>
+                <div className="text-sm text-slate-500 dark:text-slate-400">
                   Display an estimate of completion time for survey
                 </div>
               </div>
@@ -196,10 +192,8 @@ export default function EditWelcomeCard({
                   />
                 </div>
                 <div className="flex-column">
-                  <Label htmlFor="showResponseCount" className="">
-                    Show Response Count
-                  </Label>
-                  <div className="text-sm text-gray-500 dark:text-gray-400">
+                  <Label htmlFor="showResponseCount">Show Response Count</Label>
+                  <div className="text-sm text-slate-500 dark:text-slate-400">
                     Display number of responses for survey
                   </div>
                 </div>

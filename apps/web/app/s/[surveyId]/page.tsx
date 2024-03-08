@@ -8,17 +8,15 @@ import { checkValidity } from "@/app/s/[surveyId]/lib/prefilling";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { IMPRINT_URL, PRIVACY_URL, TERMS_URL } from "@formbricks/lib/constants";
-import { WEBAPP_URL } from "@formbricks/lib/constants";
+import { IMPRINT_URL, IS_FORMBRICKS_CLOUD, PRIVACY_URL, WEBAPP_URL } from "@formbricks/lib/constants";
 import { createPerson, getPersonByUserId } from "@formbricks/lib/person/service";
 import { getProductByEnvironmentId } from "@formbricks/lib/product/service";
-import { getResponseBySingleUseId } from "@formbricks/lib/response/service";
-import { getResponseCountBySurveyId } from "@formbricks/lib/response/service";
+import { getResponseBySingleUseId, getResponseCountBySurveyId } from "@formbricks/lib/response/service";
 import { getSurvey } from "@formbricks/lib/survey/service";
 import { ZId } from "@formbricks/types/environment";
 import { TResponse } from "@formbricks/types/responses";
 
-import { getEmailVerificationStatus } from "./lib/helpers";
+import { getEmailVerificationDetails } from "./lib/helpers";
 
 interface LinkSurveyPageProps {
   params: {
@@ -144,7 +142,9 @@ export default async function LinkSurveyPage({ params, searchParams }: LinkSurve
   }
 
   // verify email: Check if the survey requires email verification
-  let emailVerificationStatus: string | undefined = undefined;
+  let emailVerificationStatus: string = "";
+  let verifiedEmail: string | undefined = undefined;
+
   if (survey.verifyEmail) {
     const token =
       searchParams && Object.keys(searchParams).length !== 0 && searchParams.hasOwnProperty("verify")
@@ -152,7 +152,9 @@ export default async function LinkSurveyPage({ params, searchParams }: LinkSurve
         : undefined;
 
     if (token) {
-      emailVerificationStatus = await getEmailVerificationStatus(survey.id, token);
+      const emailVerificationDetails = await getEmailVerificationDetails(survey.id, token);
+      emailVerificationStatus = emailVerificationDetails.status;
+      verifiedEmail = emailVerificationDetails.email;
     }
   }
 
@@ -186,12 +188,14 @@ export default async function LinkSurveyPage({ params, searchParams }: LinkSurve
         webAppUrl={WEBAPP_URL}
         IMPRINT_URL={IMPRINT_URL}
         PRIVACY_URL={PRIVACY_URL}
+        IS_FORMBRICKS_CLOUD={IS_FORMBRICKS_CLOUD}
+        verifiedEmail={verifiedEmail}
       />
     );
   }
 
   return survey ? (
-    <>
+    <div className="relative">
       <MediaBackground survey={survey}>
         <LinkSurvey
           survey={survey}
@@ -203,12 +207,15 @@ export default async function LinkSurveyPage({ params, searchParams }: LinkSurve
           singleUseResponse={singleUseResponse ? singleUseResponse : undefined}
           webAppUrl={WEBAPP_URL}
           responseCount={survey.welcomeCard.showResponseCount ? responseCount : undefined}
+          verifiedEmail={verifiedEmail}
         />
       </MediaBackground>
       <LegalFooter
         bgColor={survey.styling?.background?.bg || "#ffff"}
         TERMS_URL={TERMS_URL}
         PRIVACY_URL={PRIVACY_URL}
+        IS_FORMBRICKS_CLOUD={IS_FORMBRICKS_CLOUD}
+        surveyUrl={WEBAPP_URL + "/s/" + survey.id}
       />
     </>
   ) : null;

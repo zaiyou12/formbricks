@@ -2,8 +2,12 @@ import { createId } from "@paralleldrive/cuid2";
 
 import {
   TSurvey,
+  TSurveyCTAQuestion,
+  TSurveyDisplayOption,
   TSurveyHiddenFields,
   TSurveyQuestionType,
+  TSurveyStatus,
+  TSurveyType,
   TSurveyWelcomeCard,
 } from "@formbricks/types/surveys";
 import { TTemplate } from "@formbricks/types/templates";
@@ -12,6 +16,8 @@ const thankYouCardDefault = {
   enabled: true,
   headline: "Thank you!",
   subheader: "We appreciate your feedback.",
+  buttonLabel: "Create your own Survey",
+  buttonLink: "https://formbricks.com/signup",
 };
 
 const hiddenFieldsDefault: TSurveyHiddenFields = {
@@ -29,6 +35,7 @@ const welcomeCardDefault: TSurveyWelcomeCard = {
 
 export const testTemplate: TTemplate = {
   name: "Test template",
+  category: "Product Experience",
   description: "Test template consisting of all questions",
   preset: {
     name: "Test template",
@@ -36,82 +43,101 @@ export const testTemplate: TTemplate = {
       {
         id: createId(),
         type: TSurveyQuestionType.OpenText,
-        headline: "This is an open text question",
+        headline: "This is a required open text question",
         subheader: "Please enter some text:",
         required: true,
         inputType: "text",
+        longAnswer: false,
       },
       {
         id: createId(),
         type: TSurveyQuestionType.OpenText,
-        headline: "This is an open text question",
+        headline: "This is an optional open text question",
         subheader: "Please enter some text:",
         required: false,
         inputType: "text",
+        longAnswer: false,
       },
       {
         id: createId(),
         type: TSurveyQuestionType.OpenText,
-        headline: "This is an open text question",
+        headline: "This is an optional open text question (long)",
+        subheader: "Please enter some text:",
+        required: false,
+        inputType: "text",
+        longAnswer: true,
+      },
+      {
+        id: createId(),
+        type: TSurveyQuestionType.OpenText,
+        headline: "This is a required open text question (email)",
         subheader: "Please enter an email",
         required: true,
         inputType: "email",
+        longAnswer: false,
       },
       {
         id: createId(),
         type: TSurveyQuestionType.OpenText,
-        headline: "This is an open text question",
+        headline: "This is an optional open text question (email)",
         subheader: "Please enter an email",
         required: false,
         inputType: "email",
+        longAnswer: false,
       },
       {
         id: createId(),
         type: TSurveyQuestionType.OpenText,
-        headline: "This is an open text question",
+        headline: "This is a required open text question (number)",
         subheader: "Please enter a number",
         required: true,
         inputType: "number",
+        longAnswer: false,
       },
       {
         id: createId(),
         type: TSurveyQuestionType.OpenText,
-        headline: "This is an open text question",
+        headline: "This is an optional open text question (number)",
         subheader: "Please enter a number",
         required: false,
         inputType: "number",
+        longAnswer: false,
       },
       {
         id: createId(),
         type: TSurveyQuestionType.OpenText,
-        headline: "This is an open text question",
+        headline: "This is a required open text question (phone)",
         subheader: "Please enter a phone number",
         required: true,
         inputType: "phone",
+        longAnswer: false,
       },
       {
         id: createId(),
         type: TSurveyQuestionType.OpenText,
-        headline: "This is an open text question",
+        headline: "This is an optional open text question (phone)",
         subheader: "Please enter a phone number",
         required: false,
         inputType: "phone",
+        longAnswer: false,
       },
       {
         id: createId(),
         type: TSurveyQuestionType.OpenText,
-        headline: "This is an open text question",
+        headline: "This is a required open text question (url)",
         subheader: "Please enter a url",
         required: true,
         inputType: "url",
+        longAnswer: false,
       },
       {
         id: createId(),
         type: TSurveyQuestionType.OpenText,
-        headline: "This is an open text question",
+        headline: "This is an optional open text question (url)",
         subheader: "Please enter a url",
         required: false,
         inputType: "url",
+        longAnswer: false,
       },
       {
         id: createId(),
@@ -637,7 +663,6 @@ export const templates: TTemplate[] = [
   },
   {
     name: "Churn Survey",
-
     category: "Increase Revenue",
     objectives: ["sharpen_marketing_messaging", "improve_user_retention"],
     description: "Find out why people cancel their subscriptions. These insights are pure gold!",
@@ -983,6 +1008,72 @@ export const templates: TTemplate[] = [
     },
   },
   {
+    name: "Changing Subscription Experience",
+
+    category: "Increase Revenue",
+    objectives: ["increase_conversion", "improve_user_retention"],
+    description: "Find out what goes through peoples minds when changing their subscriptions.",
+    preset: {
+      name: "Changing subscription experience",
+      welcomeCard: welcomeCardDefault,
+      questions: [
+        {
+          id: createId(),
+          type: TSurveyQuestionType.MultipleChoiceSingle,
+          headline: "How easy was it to change your plan?",
+          required: true,
+          shuffleOption: "none",
+          choices: [
+            {
+              id: createId(),
+              label: "Extremely difficult",
+            },
+            {
+              id: createId(),
+              label: "It took a while, but I got it",
+            },
+            {
+              id: createId(),
+              label: "It was alright",
+            },
+            {
+              id: createId(),
+              label: "Quite easy",
+            },
+            {
+              id: createId(),
+              label: "Very easy, love it!",
+            },
+          ],
+        },
+        {
+          id: createId(),
+          type: TSurveyQuestionType.MultipleChoiceSingle,
+          headline: "Is the pricing information easy to understand?",
+          required: true,
+          shuffleOption: "none",
+          choices: [
+            {
+              id: createId(),
+              label: "Yes, very clear.",
+            },
+            {
+              id: createId(),
+              label: "I was confused at first, but found what I needed.",
+            },
+            {
+              id: createId(),
+              label: "Quite complicated.",
+            },
+          ],
+        },
+      ],
+      thankYouCard: thankYouCardDefault,
+      hiddenFields: hiddenFieldsDefault,
+    },
+  },
+
+  {
     name: "Identify Customer Goals",
 
     category: "Product Experience",
@@ -1222,6 +1313,208 @@ export const templates: TTemplate[] = [
       hiddenFields: hiddenFieldsDefault,
     },
   },
+  {
+    name: "Net Promoter Score (NPS)",
+
+    category: "Customer Success",
+    objectives: ["support_sales"],
+    description: "Measure the Net Promoter Score of your product or service.",
+    preset: {
+      name: "NPS Survey",
+      welcomeCard: welcomeCardDefault,
+      questions: [
+        {
+          id: createId(),
+          type: TSurveyQuestionType.NPS,
+          headline: "How likely are you to recommend {{productName}} to a friend or colleague?",
+          required: false,
+          lowerLabel: "Not likely",
+          upperLabel: "Very likely",
+        },
+        {
+          id: createId(),
+          type: TSurveyQuestionType.OpenText,
+          headline: "What made you give that rating?",
+          required: false,
+          inputType: "text",
+        },
+      ],
+      thankYouCard: thankYouCardDefault,
+      hiddenFields: hiddenFieldsDefault,
+    },
+  },
+  {
+    name: "Customer Satisfaction Score (CSAT)",
+    category: "Customer Success",
+    objectives: ["support_sales"],
+    description: "Measure the Customer Satisfaction Score of your product.",
+    preset: {
+      name: "{{productName}} CSAT",
+      welcomeCard: welcomeCardDefault,
+      questions: [
+        {
+          id: createId(),
+          type: TSurveyQuestionType.Rating,
+          logic: [{ value: 3, condition: "lessEqual", destination: "vyo4mkw4ln95ts4ya7qp2tth" }],
+          range: 5,
+          scale: "smiley",
+          headline: "How satisfied are you with your {{productName}} experience?",
+          required: true,
+          subheader: "",
+          lowerLabel: "Not satisfied",
+          upperLabel: "Very satisfied",
+        },
+        {
+          id: createId(),
+          type: TSurveyQuestionType.OpenText,
+          logic: [{ condition: "submitted", destination: "end" }],
+          headline: "Lovely! Is there anything we can do to improve your experience?",
+          required: false,
+          placeholder: "Type your answer here...",
+          inputType: "text",
+        },
+        {
+          id: "vyo4mkw4ln95ts4ya7qp2tth",
+          type: TSurveyQuestionType.OpenText,
+          headline: "Ugh, sorry! Is there anything we can do to improve your experience?",
+          required: false,
+          placeholder: "Type your answer here...",
+          inputType: "text",
+        },
+      ],
+      thankYouCard: thankYouCardDefault,
+      hiddenFields: hiddenFieldsDefault,
+    },
+  },
+  {
+    name: "Collect Feedback",
+    category: "Product Experience",
+    objectives: ["increase_user_adoption", "improve_user_retention"],
+    description: "Gather comprehensive feedback on your product or service.",
+    preset: {
+      name: "Feedback Survey",
+      welcomeCard: welcomeCardDefault,
+      questions: [
+        {
+          id: createId(),
+          type: TSurveyQuestionType.Rating,
+          logic: [{ value: "3", condition: "lessEqual", destination: "dlpa0371pe7rphmggy2sgbap" }],
+          range: 5,
+          scale: "star",
+          headline: "How do you rate your overall experience?",
+          required: true,
+          subheader: "Don't worry, be honest.",
+          lowerLabel: "Not good",
+          upperLabel: "Very good",
+        },
+        {
+          id: createId(),
+          type: TSurveyQuestionType.OpenText,
+          logic: [{ condition: "submitted", destination: "gwo0fq5kug13e83fcour4n1w" }],
+          headline: "Lovely! What did you like about it?",
+          required: true,
+          longAnswer: true,
+          placeholder: "Type your answer here...",
+          inputType: "text",
+        },
+        {
+          id: "dlpa0371pe7rphmggy2sgbap",
+          type: TSurveyQuestionType.OpenText,
+          headline: "Thanks for sharing! What did you not like?",
+          required: true,
+          longAnswer: true,
+          placeholder: "Type your answer here...",
+          inputType: "text",
+        },
+        {
+          id: "gwo0fq5kug13e83fcour4n1w",
+          type: TSurveyQuestionType.Rating,
+          range: 5,
+          scale: "smiley",
+          headline: "How do you rate our communication?",
+          required: true,
+          lowerLabel: "Not good",
+          upperLabel: "Very good",
+        },
+        {
+          id: createId(),
+          type: TSurveyQuestionType.OpenText,
+          headline: "Anything else you'd like to share with our team?",
+          required: false,
+          longAnswer: true,
+          placeholder: "Type your answer here...",
+          inputType: "text",
+        },
+        {
+          id: "sjbaghd1bi59pkjun2c97kw9",
+          type: TSurveyQuestionType.MultipleChoiceSingle,
+          logic: [],
+          choices: [
+            { id: createId(), label: "Google" },
+            { id: createId(), label: "Social Media" },
+            { id: createId(), label: "Friends" },
+            { id: createId(), label: "Podcast" },
+            { id: "other", label: "Other" },
+          ],
+          headline: "How did you hear about us?",
+          required: true,
+          shuffleOption: "none",
+        },
+        {
+          id: createId(),
+          type: TSurveyQuestionType.OpenText,
+          headline: "Lastly, we'd love to respond to your feedback. Please share your email:",
+          required: false,
+          inputType: "email",
+          longAnswer: false,
+          placeholder: "example@email.com",
+        },
+      ],
+      thankYouCard: thankYouCardDefault,
+      hiddenFields: hiddenFieldsDefault,
+    },
+  },
+  {
+    name: "Identify Upsell Opportunities",
+
+    category: "Increase Revenue",
+    objectives: ["support_sales", "sharpen_marketing_messaging"],
+    description: "Find out how much time your product saves your user. Use it to upsell.",
+    preset: {
+      name: "Identify upsell opportunities",
+      welcomeCard: welcomeCardDefault,
+      questions: [
+        {
+          id: createId(),
+          type: TSurveyQuestionType.MultipleChoiceSingle,
+          headline: "How many hours does your team save per week by using {{productName}}?",
+          required: true,
+          shuffleOption: "none",
+          choices: [
+            {
+              id: createId(),
+              label: "Less than 1 hour",
+            },
+            {
+              id: createId(),
+              label: "1 to 2 hours",
+            },
+            {
+              id: createId(),
+              label: "3 to 5 hours",
+            },
+            {
+              id: createId(),
+              label: "5+ hours",
+            },
+          ],
+        },
+      ],
+      thankYouCard: thankYouCardDefault,
+      hiddenFields: hiddenFieldsDefault,
+    },
+  },
+
   {
     name: "Prioritize Features",
 
@@ -1601,7 +1894,6 @@ export const templates: TTemplate[] = [
   },
   {
     name: "Improve Newsletter Content",
-
     category: "Growth",
     objectives: ["increase_conversion", "sharpen_marketing_messaging"],
     description: "Find out how your subscribers like your newsletter content.",
@@ -1907,8 +2199,8 @@ export const minimalSurvey: TSurvey = {
   name: "Minimal Survey",
   type: "web",
   environmentId: "someEnvId1",
+  createdBy: null,
   status: "draft",
-  attributeFilters: [],
   displayOption: "displayOnce",
   autoClose: null,
   triggers: [],
@@ -1916,6 +2208,7 @@ export const minimalSurvey: TSurvey = {
   recontactDays: null,
   welcomeCard: welcomeCardDefault,
   questions: [],
+  inlineTriggers: null,
   thankYouCard: {
     enabled: false,
   },
@@ -1923,6 +2216,7 @@ export const minimalSurvey: TSurvey = {
     enabled: false,
   },
   delay: 0, // No delay
+  displayPercentage: null,
   autoComplete: null,
   closeOnDate: null,
   surveyClosedMessage: {
@@ -1932,4 +2226,28 @@ export const minimalSurvey: TSurvey = {
   singleUse: null,
   styling: null,
   resultShareKey: null,
+  segment: null,
 };
+
+export const getFirstSurvey = (webAppUrl: string) => ({
+  ...customSurvey.preset,
+  questions: customSurvey.preset.questions.map(
+    (question) =>
+      ({
+        ...question,
+        type: TSurveyQuestionType.CTA,
+        headline: "You did it 🎉",
+        html: "You're all set up. Create your own survey to gather exactly the feedback you need :)",
+        buttonLabel: "Create survey",
+        buttonExternal: true,
+        imageUrl: `${webAppUrl}/onboarding/meme.png`,
+      }) as TSurveyCTAQuestion
+  ),
+  name: "Example survey",
+  type: "web" as TSurveyType,
+  autoComplete: 2,
+  triggers: ["New Session"],
+  status: "inProgress" as TSurveyStatus,
+  displayOption: "respondMultiple" as TSurveyDisplayOption,
+  recontactDays: 0,
+});

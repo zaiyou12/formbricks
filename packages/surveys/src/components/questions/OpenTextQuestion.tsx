@@ -45,6 +45,16 @@ export default function OpenTextQuestion({
     // setIsValid(isValidInput);
     onChange({ [question.id]: inputValue });
   };
+
+  const handleInputResize = (event: { target: any }) => {
+    let maxHeight = 160; // 8 lines
+    const textarea = event.target;
+    textarea.style.height = "auto";
+    const newHeight = Math.min(textarea.scrollHeight, maxHeight);
+    textarea.style.height = `${newHeight}px`;
+    textarea.style.overflow = newHeight >= maxHeight ? "auto" : "hidden";
+  };
+
   const openTextRef = useCallback(
     (currentElement: HTMLInputElement | HTMLTextAreaElement | null) => {
       if (question.id && currentElement && autoFocus) {
@@ -53,12 +63,10 @@ export default function OpenTextQuestion({
     },
     [question.id, autoFocus]
   );
-  const isInputEmpty = (value: string) => {
-    return question.required && !value?.trim();
-  };
 
   return (
     <form
+      key={question.id}
       onSubmit={(e) => {
         e.preventDefault();
         //  if ( validateInput(value as string, question.inputType, question.required)) {
@@ -78,6 +86,7 @@ export default function OpenTextQuestion({
             tabIndex={1}
             name={question.id}
             id={question.id}
+            step={"any"}
             placeholder={question.placeholder}
             required={question.required}
             value={value ? (value as string) : ""}
@@ -85,16 +94,7 @@ export default function OpenTextQuestion({
             onInput={(e) => handleInputChange(e.currentTarget.value)}
             autoFocus={autoFocus}
             className="border-border bg-survey-bg focus:border-border-highlight block w-full rounded-md border p-2 shadow-sm focus:outline-none focus:ring-0 sm:text-sm"
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && isInputEmpty(value as string)) {
-                e.preventDefault(); // Prevent form submission
-              } else if (e.key === "Enter") {
-                const updatedttc = getUpdatedTtc(ttc, question.id, performance.now() - startTime);
-                setTtc(updatedttc);
-                onSubmit({ [question.id]: value, inputType: question.inputType }, updatedttc);
-              }
-            }}
-            pattern={question.inputType === "phone" ? "[+][0-9 ]+" : ".*"}
+            pattern={question.inputType === "phone" ? "[0-9+ ]+" : ".*"}
             title={question.inputType === "phone" ? "Enter a valid phone number" : undefined}
           />
         ) : (
@@ -108,7 +108,10 @@ export default function OpenTextQuestion({
             required={question.required}
             value={value as string}
             type={question.inputType}
-            onInput={(e) => handleInputChange(e.currentTarget.value)}
+            onInput={(e) => {
+              handleInputChange(e.currentTarget.value);
+              handleInputResize(e);
+            }}
             autoFocus={autoFocus}
             className="border-border bg-survey-bg text-subheading focus:border-border-highlight block w-full rounded-md border p-2 shadow-sm focus:ring-0 sm:text-sm"
             pattern={question.inputType === "phone" ? "[+][0-9 ]+" : ".*"}

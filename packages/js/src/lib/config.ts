@@ -10,6 +10,7 @@ export class Config {
 
   private constructor() {
     const localConfig = this.loadFromLocalStorage();
+
     if (localConfig.ok) {
       this.config = localConfig.value;
     }
@@ -24,11 +25,12 @@ export class Config {
 
   public update(newConfig: TJsConfigUpdateInput): void {
     if (newConfig) {
-      const expiresAt = new Date(new Date().getTime() + 15 * 60000); // 15 minutes in the future
+      const expiresAt = new Date(new Date().getTime() + 2 * 60000); // 2 minutes in the future
 
       this.config = {
         ...this.config,
         ...newConfig,
+        status: newConfig.status || "success",
         expiresAt,
       };
 

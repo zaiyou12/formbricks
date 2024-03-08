@@ -1,28 +1,35 @@
 import { FormbricksAPI } from "@formbricks/api";
 import { ResponseQueue } from "@formbricks/lib/responseQueue";
 import SurveyState from "@formbricks/lib/surveyState";
-import { renderSurveyModal } from "@formbricks/surveys";
 import { TJSStateDisplay } from "@formbricks/types/js";
 import { TResponseUpdate } from "@formbricks/types/responses";
 import { TSurvey } from "@formbricks/types/surveys";
 
 import { Config } from "./config";
 import { ErrorHandler } from "./errors";
+import { putFormbricksInErrorState } from "./initialize";
 import { Logger } from "./logger";
 import { filterPublicSurveys, sync } from "./sync";
 
 const containerId = "formbricks-web-container";
+
 const config = Config.getInstance();
 const logger = Logger.getInstance();
 const errorHandler = ErrorHandler.getInstance();
-let surveyRunning = false;
+let isSurveyRunning = false;
+let setIsError = (_: boolean) => {};
+let setIsResponseSendingFinished = (_: boolean) => {};
 
-export const renderWidget = (survey: TSurvey) => {
-  if (surveyRunning) {
+export const setIsSurveyRunning = (value: boolean) => {
+  isSurveyRunning = value;
+};
+
+export const renderWidget = async (survey: TSurvey) => {
+  if (isSurveyRunning) {
     logger.debug("A survey is already running. Skipping.");
     return;
   }
-  surveyRunning = true;
+  setIsSurveyRunning(true);
 
   if (survey.delay) {
     logger.debug(`Delaying survey by ${survey.delay} seconds.`);
@@ -37,8 +44,11 @@ export const renderWidget = (survey: TSurvey) => {
       apiHost: config.get().apiHost,
       environmentId: config.get().environmentId,
       retryAttempts: 2,
-      onResponseSendingFailed: (response) => {
-        alert(`Failed to send response: ${JSON.stringify(response, null, 2)}`);
+      onResponseSendingFailed: () => {
+        setIsError(true);
+      },
+      onResponseSendingFinished: () => {
+        setIsResponseSendingFinished(true);
       },
     },
     surveyState
@@ -51,9 +61,10 @@ export const renderWidget = (survey: TSurvey) => {
   const darkOverlay = productOverwrites.darkOverlay ?? product.darkOverlay;
   const placement = productOverwrites.placement ?? product.placement;
   const isBrandingEnabled = product.inAppSurveyBranding;
+  const formbricksSurveys = await loadFormbricksSurveysExternally();
 
   setTimeout(() => {
-    renderSurveyModal({
+    formbricksSurveys.renderSurveyModal({
       survey: survey,
       brandColor,
       isBrandingEnabled: isBrandingEnabled,
@@ -61,6 +72,12 @@ export const renderWidget = (survey: TSurvey) => {
       darkOverlay,
       highlightBorderColor,
       placement,
+      getSetIsError: (f: (value: boolean) => void) => {
+        setIsError = f;
+      },
+      getSetIsResponseSendingFinished: (f: (value: boolean) => void) => {
+        setIsResponseSendingFinished = f;
+      },
       onDisplay: async () => {
         const { userId } = config.get();
         // if config does not have a person, we store the displays in local storage
@@ -142,13 +159,17 @@ export const renderWidget = (survey: TSurvey) => {
 
         return await api.client.storage.uploadFile(file, params);
       },
+      onRetry: () => {
+        setIsError(false);
+        responseQueue.processQueue();
+      },
     });
   }, survey.delay * 1000);
 };
 
 export const closeSurvey = async (): Promise<void> => {
   // remove container element from DOM
-  document.getElementById(containerId)?.remove();
+  removeWidgetContainer();
   addWidgetContainer();
 
   // if unidentified user, refilter the surveys
@@ -159,20 +180,24 @@ export const closeSurvey = async (): Promise<void> => {
       ...config.get(),
       state: updatedState,
     });
-    surveyRunning = false;
+    setIsSurveyRunning(false);
     return;
   }
 
   // for identified users we sync to get the latest surveys
   try {
-    await sync({
-      apiHost: config.get().apiHost,
-      environmentId: config.get().environmentId,
-      userId: config.get().userId,
-    });
-    surveyRunning = false;
-  } catch (e) {
+    await sync(
+      {
+        apiHost: config.get().apiHost,
+        environmentId: config.get().environmentId,
+        userId: config.get().userId,
+      },
+      true
+    );
+    setIsSurveyRunning(false);
+  } catch (e: any) {
     errorHandler.handle(e);
+    putFormbricksInErrorState();
   }
 };
 
@@ -180,4 +205,28 @@ export const addWidgetContainer = (): void => {
   const containerElement = document.createElement("div");
   containerElement.id = containerId;
   document.body.appendChild(containerElement);
+};
+
+export const removeWidgetContainer = (): void => {
+  document.getElementById(containerId)?.remove();
+};
+
+const loadFormbricksSurveysExternally = (): Promise<typeof window.formbricksSurveys> => {
+  const formbricksSurveysScriptSrc = import.meta.env.FORMBRICKS_SURVEYS_SCRIPT_SRC;
+
+  return new Promise((resolve, reject) => {
+    if (window.formbricksSurveys) {
+      resolve(window.formbricksSurveys);
+    } else {
+      const script = document.createElement("script");
+      script.src = formbricksSurveysScriptSrc;
+      script.async = true;
+      script.onload = () => resolve(window.formbricksSurveys);
+      script.onerror = (error) => {
+        console.error("Failed to load Formbricks Surveys library:", error);
+        reject(error);
+      };
+      document.head.appendChild(script);
+    }
+  });
 };

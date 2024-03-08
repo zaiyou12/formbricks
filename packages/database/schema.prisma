@@ -63,7 +63,7 @@ model Attribute {
   personId         String
   value            String
 
-  @@unique([attributeClassId, personId])
+  @@unique([personId, attributeClassId])
 }
 
 enum AttributeType {
@@ -86,7 +86,8 @@ model AttributeClass {
   attributeFilters SurveyAttributeFilter[]
 
   @@unique([name, environmentId])
-  @@index([environmentId])
+  @@index([environmentId, createdAt])
+  @@index([environmentId, archived])
 }
 
 model Person {
@@ -256,6 +257,8 @@ model Survey {
   type                SurveyType              @default(web)
   environment         Environment             @relation(fields: [environmentId], references: [id], onDelete: Cascade)
   environmentId       String
+  creator             User?                   @relation(fields: [createdBy], references: [id])
+  createdBy           String?
   status              SurveyStatus            @default(draft)
   /// @zod.custom(imports.ZSurveyWelcomeCard)
   /// [SurveyWelcomeCard]
@@ -273,6 +276,9 @@ model Survey {
   displayOption       displayOptions          @default(displayOnce)
   recontactDays       Int?
   triggers            SurveyTrigger[]
+  /// @zod.custom(imports.ZSurveyInlineTriggers)
+  /// [SurveyInlineTriggers]
+  inlineTriggers      Json?
   attributeFilters    SurveyAttributeFilter[]
   displays            Display[]
   autoClose           Int?
@@ -282,25 +288,31 @@ model Survey {
   /// @zod.custom(imports.ZSurveyClosedMessage)
   /// [SurveyClosedMessage]
   surveyClosedMessage Json?
-  /// @zod.custom(imports.ZSurveySingleUse)
-  /// [SurveySingleUse]
+
+  segmentId String?
+  segment   Segment? @relation(fields: [segmentId], references: [id])
 
   /// @zod.custom(imports.ZSurveyProductOverwrites)
   /// [SurveyProductOverwrites]
   productOverwrites Json?
+
   /// @zod.custom(imports.ZSurveyStyling)
   /// [SurveyStyling]
-  styling           Json?
+  styling Json?
+
   /// @zod.custom(imports.ZSurveySingleUse)
   /// [SurveySingleUse]
-  singleUse         Json?   @default("{\"enabled\": false, \"isEncrypted\": true}")
+  singleUse Json? @default("{\"enabled\": false, \"isEncrypted\": true}")
+
   /// @zod.custom(imports.ZSurveyVerifyEmail)
   /// [SurveyVerifyEmail]
   verifyEmail       Json?
   pin               String?
   resultShareKey    String? @unique
+  displayPercentage Int?
 
   @@index([environmentId])
+  @@index([segmentId])
 }
 
 enum ActionType {
@@ -339,8 +351,9 @@ model Action {
   /// [ActionProperties]
   properties    Json        @default("{}")
 
+  @@index([personId, actionClassId, createdAt])
+  @@index([actionClassId, createdAt])
   @@index([personId])
-  @@index([actionClassId])
 }
 
 enum EnvironmentType {
@@ -382,6 +395,7 @@ model Environment {
   apiKeys              ApiKey[]
   webhooks             Webhook[]
   tags                 Tag[]
+  segments             Segment[]
   integration          Integration[]
 
   @@index([productId])
@@ -486,6 +500,7 @@ enum IdentityProvider {
   github
   google
   azuread
+  openid
 }
 
 model Account {
@@ -562,6 +577,7 @@ model User {
   /// @zod.custom(imports.ZUserNotificationSettings)
   /// [UserNotificationSettings]
   notificationSettings      Json             @default("{}")
+  surveys                   Survey[]
 
   @@index([email])
 }
@@ -571,4 +587,22 @@ model ShortUrl {
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @updatedAt @map(name: "updated_at")
   url       String   @unique
+}
+
+model Segment {
+  id            String      @id @default(cuid())
+  createdAt     DateTime    @default(now()) @map(name: "created_at")
+  updatedAt     DateTime    @updatedAt @map(name: "updated_at")
+  title         String
+  description   String?
+  isPrivate     Boolean     @default(true)
+  /// @zod.custom(imports.ZSegmentFilters)
+  /// [SegmentFilter]
+  filters       Json        @default("[]")
+  environmentId String
+  environment   Environment @relation(fields: [environmentId], references: [id], onDelete: Cascade)
+  surveys       Survey[]
+
+  @@unique([environmentId, title])
+  @@index([environmentId])
 }
